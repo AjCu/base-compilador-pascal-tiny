@@ -1,9 +1,23 @@
 {
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "Compiladores_Tiny_Generacion_2022_1/src/especificacion/java-cup-11b.jar",
-        "Compiladores_Tiny_Generacion_2022_1/src/especificacion/java-cup-11b-runtime.jar",
-        "Compiladores_Tiny_Generacion_2022_1/src/especificacion/jflex-full-1.8.2.jar",
-        "Compiladores_Tiny_Generacion_2022_1/src/especificacion/JFlex.jar"
-    ]
+  "search.exclude": {
+    "**/.sst": true
+  },
+  "task.allowAutomaticTasks": true,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "debug.openDebug": "neverOpen",
+  "problems.autoReveal": true,
+  "terminal.integrated.hideOnStartup": "always",
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "terminal.integrated.inheritEnv": false,
+  "jestrunner.configPath": "jest.unit.config.cjs",
+  "compile-hero.disable-compile-files-on-did-save-code": true,
+  "tasks": {
+    "label": "lint on open",
+    "type": "shell",
+    "command": "npm run lint",
+    "runOn": "folderOpen"
+  }
 }

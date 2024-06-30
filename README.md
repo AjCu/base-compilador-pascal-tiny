@@ -4,7 +4,7 @@ Este proyecto es un compilador escrito en Java que transforma código escrito en
 Este se realiza como proyecto final de la Materia de Compiladores para el Semestre de 2024-1 en la Universidad Nacional Experimental del Tachira (UNET), los integrantes son:
 
 - Alberto Cristancho C.I V-24.782.650
-- Hector David C.I V-XX.XXX.XXX
+- Hector David Ramirez C.I V-21.222.783
 - Victor Colmenares C.I V-26.675.084
 
 ## Requisitos
