@@ -52,6 +52,7 @@ action code {:
 /* Simbolos Terminales */
 
 terminal PROGRAMA;
+terminal PROCEDIMIENTO;
 terminal VAR;
 terminal INT;
 terminal BOOL;
@@ -132,9 +133,13 @@ BLOQUE ::= VAR DECL_EXPRESION_SEQ:dclstmt BEGIN EXPRESION_SEQUENCIA:body_seq END
             tmp.setHermanoDerecha(((NodoBase)new NodoDeclarationList(body_seq)));
             RESULT = tmp;
             :}
+            | PROGRAMA ID PUNTO_COMA VAR DECL_EXPRESION_SEQ:dclstmt BEGIN EXPRESION_SEQUENCIA:body_seq END POINT{: if(debug) System.out.println("\t regla 2a");
+            NodoBase tmp = ((NodoBase)new NodoDeclarationList(dclstmt));
+            tmp.setHermanoDerecha(((NodoBase)new NodoDeclarationList(body_seq)));
+            RESULT = tmp;
+            :}
             | BEGIN EXPRESION_SEQUENCIA:bodystmt END POINT{: if(debug) System.out.println("\t regla 2b");
                 RESULT = ((NodoBase)new NodoDeclarationList(bodystmt));
-
             :}
             ;
 

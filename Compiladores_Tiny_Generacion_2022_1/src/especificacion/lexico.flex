@@ -56,6 +56,9 @@ espacio		= [ \t]+
 "program"           { if(debug) System.out.println("token PROGRAMA");
             return sf.newSymbol("PROGRAMA",sym.PROGRAMA);
             }
+"procedure"           { if(debug) System.out.println("token PROCEDIMIENTO");
+            return sf.newSymbol("PROCEDIMIENTO",sym.PROCEDIMIENTO);
+            }
 "var"           { if(debug) System.out.println("token VAR");
             return sf.newSymbol("VAR",sym.VAR);
             }

@@ -43,7 +43,7 @@
             "name": "parser",
             "request": "launch",
             "args": [
-                "C:/Development/Personal AJCU/UNET/proyecto-compi-2024/Compiladores_Tiny_Generacion_2022_1/ejemplo_fuente/funciones.pas"
+                "C:/Development/Personal AJCU/UNET/proyecto-compi-2024/Compiladores_Tiny_Generacion_2022_1/ejemplo_fuente/operaciones.pas"
             ],
             "mainClass": "ve.edu.unet.parser",
             "projectName": "proyecto-compi-2024_60ebe594",

@@ -1,10 +1,12 @@
+program funciones;
 var
 	pi, radio, radio : Integer;
 	dias: Integer;
 	dialibre : Integer;
+	circulo : Integer;
 PROCEDURE Circulo ()
 BEGIN
-	Circulo := pi * radio * radio;
+	circulo := pi * radio * radio;
 END;
 
 PROCEDURE LeerConjunto ()
