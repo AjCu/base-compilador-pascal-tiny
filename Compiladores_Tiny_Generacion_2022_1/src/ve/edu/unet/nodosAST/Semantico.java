@@ -196,7 +196,9 @@ public class Semantico {
                         || operacion.equals(tipoOp.entre)
                         || operacion.equals(tipoOp.igual)
                         || operacion.equals(tipoOp.menor)
+                        || operacion.equals(tipoOp.menorigual)
                         || operacion.equals(tipoOp.mayor)
+                        || operacion.equals(tipoOp.mayorigual)
                         || operacion.equals(tipoOp.mod))) {
                         throw new Exception("Error: Operacion '" + operacion + "' no permitida sobre '" + variable + "' de tipo entero");
                     }
@@ -231,7 +233,9 @@ public class Semantico {
                     tipoOp operacion = ((NodoOperacion) expresion).getOperacion();
                     if (!(operacion.equals(tipoOp.igual)
                         || operacion.equals(tipoOp.menor)
+                        || operacion.equals(tipoOp.menorigual)
                         || operacion.equals(tipoOp.mayor)
+                        || operacion.equals(tipoOp.mayorigual)
                         || operacion.equals(tipoOp.and)
                         || operacion.equals(tipoOp.or))) {
                         throw new Exception("Error: Operacion '" + operacion + "' no permitida sobre '" + variable + "' de tipo booleano");
@@ -268,7 +272,9 @@ public class Semantico {
             tipoOp operacion = ((NodoOperacion) pruebaLogica).getOperacion();
             if (operacion != tipoOp.igual &&
                 operacion != tipoOp.menor &&
+                operacion != tipoOp.menorigual &&
                 operacion != tipoOp.mayor &&
+                operacion != tipoOp.mayorigual &&
                 operacion != tipoOp.and &&
                 operacion != tipoOp.or  &&
                 operacion != tipoOp.mod) {

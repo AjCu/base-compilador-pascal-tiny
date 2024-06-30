@@ -131,8 +131,14 @@ espacio		= [ \t]+
 "<"             {	if(debug) System.out.println("token MENOR_QUE");
 			return sf.newSymbol("MENOR_QUE",sym.MENOR_QUE);
 			}
+"<="             {	if(debug) System.out.println("token MENOR_IGUAL");
+			return sf.newSymbol("MENOR_QUE",sym.MENOR_IGUAL);
+			}
 ">"             {	if(debug) System.out.println("token MAYOR_QUE");
 			return sf.newSymbol("MAYOR_QUE",sym.MAYOR_QUE);
+			}
+">="             {	if(debug) System.out.println("token MAYOR_IGUAL");
+			return sf.newSymbol("MAYOR_QUE",sym.MAYOR_IGUAL);
 			}
 "+"             {	if(debug) System.out.println("token PLUS");
 			return sf.newSymbol("PLUS",sym.PLUS);

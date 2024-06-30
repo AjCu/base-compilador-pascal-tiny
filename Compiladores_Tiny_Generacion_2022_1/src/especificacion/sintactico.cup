@@ -73,7 +73,9 @@ terminal String NUM;
 terminal ASIGNACION;
 terminal IGUAL;
 terminal MENOR_QUE;
+terminal MENOR_IGUAL;
 terminal MAYOR_QUE;
+terminal MAYOR_IGUAL;
 terminal PLUS;
 terminal MINUS;
 terminal TIMES;
@@ -364,6 +366,12 @@ EXPRESION         ::= EXPRESION_SIMPLE:exI MENOR_QUE EXPRESION_SIMPLE:exD	{: if(
 								:}
         | EXPRESION_SIMPLE:exI MAYOR_QUE EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9d");
                             RESULT = new NodoOperacion(exI,tipoOp.mayor,exD);
+                            :}
+        | EXPRESION_SIMPLE:exI MENOR_IGUAL EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9e");
+                            RESULT = new NodoOperacion(exI,tipoOp.menorigual,exD);
+                            :}
+        | EXPRESION_SIMPLE:exI MAYOR_IGUAL EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9f");
+                            RESULT = new NodoOperacion(exI,tipoOp.mayorigual,exD);
                             :}
 		| EXPRESION_SIMPLE:exI IGUAL EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9b");
 							RESULT = new NodoOperacion(exI,tipoOp.igual,exD);
