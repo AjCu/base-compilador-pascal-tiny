@@ -72,6 +72,7 @@ terminal String ID;
 terminal String NUM;
 terminal ASIGNACION;
 terminal IGUAL;
+terminal DISTINTO_DE;
 terminal MENOR_QUE;
 terminal MENOR_IGUAL;
 terminal MAYOR_QUE;
@@ -375,6 +376,9 @@ EXPRESION         ::= EXPRESION_SIMPLE:exI MENOR_QUE EXPRESION_SIMPLE:exD	{: if(
                             :}
 		| EXPRESION_SIMPLE:exI IGUAL EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9b");
 							RESULT = new NodoOperacion(exI,tipoOp.igual,exD);
+							:}
+		| EXPRESION_SIMPLE:exI DISTINTO_DE EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9b");
+							RESULT = new NodoOperacion(exI,tipoOp.distinto,exD);
 							:}
 		| EXPRESION_SIMPLE:ex	{: if(debug) System.out.println("\t regla 9c");
 					RESULT = ex;

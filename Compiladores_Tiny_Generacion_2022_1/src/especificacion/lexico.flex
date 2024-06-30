@@ -128,6 +128,9 @@ espacio		= [ \t]+
 "="             {	if(debug) System.out.println("token IGUAL");
 			return sf.newSymbol("IGUAL",sym.IGUAL);
 			}
+"<>"             {	if(debug) System.out.println("token DISTINTO_DE");
+			return sf.newSymbol("DISTINTO_DE",sym.DISTINTO_DE);
+			}
 "<"             {	if(debug) System.out.println("token MENOR_QUE");
 			return sf.newSymbol("MENOR_QUE",sym.MENOR_QUE);
 			}

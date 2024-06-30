@@ -8,52 +8,53 @@ package ve.edu.unet;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int LBRACKET = 34;
-  public static final int OVER = 30;
+  public static final int LBRACKET = 35;
+  public static final int OVER = 31;
   public static final int PROGRAMA = 2;
-  public static final int DOS_PUNTOS = 41;
-  public static final int LPAREN = 32;
+  public static final int DOS_PUNTOS = 42;
+  public static final int LPAREN = 33;
   public static final int REPEAT = 15;
   public static final int INT = 5;
-  public static final int ARRAY = 44;
-  public static final int FOR = 37;
-  public static final int MINUS = 28;
+  public static final int ARRAY = 45;
+  public static final int FOR = 38;
+  public static final int MINUS = 29;
   public static final int WRITE = 18;
-  public static final int RPAREN = 33;
+  public static final int RPAREN = 34;
   public static final int NOT = 10;
   public static final int AND = 8;
   public static final int IGUAL = 22;
   public static final int OR = 9;
-  public static final int COMMA = 42;
+  public static final int COMMA = 43;
   public static final int BOOL = 6;
   public static final int PROCEDIMIENTO = 3;
   public static final int BEGIN = 7;
   public static final int UNTIL = 16;
   public static final int NUM = 20;
-  public static final int PLUS = 27;
+  public static final int PLUS = 28;
   public static final int IF = 11;
-  public static final int PUNTO_COMA = 36;
+  public static final int PUNTO_COMA = 37;
   public static final int ID = 19;
-  public static final int OF = 45;
+  public static final int OF = 46;
   public static final int EOF = 0;
-  public static final int RBRACKET = 35;
+  public static final int RBRACKET = 36;
   public static final int error = 1;
-  public static final int MAYOR_QUE = 25;
-  public static final int MOD = 31;
+  public static final int MAYOR_QUE = 26;
+  public static final int MOD = 32;
   public static final int ASIGNACION = 21;
-  public static final int TIMES = 29;
+  public static final int TIMES = 30;
   public static final int ELSE = 13;
-  public static final int POINT = 43;
+  public static final int DISTINTO_DE = 23;
+  public static final int POINT = 44;
   public static final int READ = 17;
-  public static final int TO = 39;
-  public static final int WHILE = 38;
-  public static final int MAYOR_IGUAL = 26;
+  public static final int TO = 40;
+  public static final int WHILE = 39;
+  public static final int MAYOR_IGUAL = 27;
   public static final int THEN = 12;
   public static final int END = 14;
-  public static final int MENOR_QUE = 23;
-  public static final int MENOR_IGUAL = 24;
+  public static final int MENOR_QUE = 24;
+  public static final int MENOR_IGUAL = 25;
   public static final int VAR = 4;
-  public static final int DO = 40;
+  public static final int DO = 41;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -78,6 +79,7 @@ public class sym {
   "NUM",
   "ASIGNACION",
   "IGUAL",
+  "DISTINTO_DE",
   "MENOR_QUE",
   "MENOR_IGUAL",
   "MAYOR_QUE",

@@ -195,6 +195,7 @@ public class Semantico {
                         || operacion.equals(tipoOp.por)
                         || operacion.equals(tipoOp.entre)
                         || operacion.equals(tipoOp.igual)
+                        || operacion.equals(tipoOp.distinto)
                         || operacion.equals(tipoOp.menor)
                         || operacion.equals(tipoOp.menorigual)
                         || operacion.equals(tipoOp.mayor)
@@ -232,6 +233,7 @@ public class Semantico {
                 }else if (expresion instanceof NodoOperacion) {
                     tipoOp operacion = ((NodoOperacion) expresion).getOperacion();
                     if (!(operacion.equals(tipoOp.igual)
+                        || operacion.equals(tipoOp.distinto)
                         || operacion.equals(tipoOp.menor)
                         || operacion.equals(tipoOp.menorigual)
                         || operacion.equals(tipoOp.mayor)
@@ -271,6 +273,7 @@ public class Semantico {
         } else if (pruebaLogica instanceof NodoOperacion) {
             tipoOp operacion = ((NodoOperacion) pruebaLogica).getOperacion();
             if (operacion != tipoOp.igual &&
+                operacion != tipoOp.distinto &&
                 operacion != tipoOp.menor &&
                 operacion != tipoOp.menorigual &&
                 operacion != tipoOp.mayor &&

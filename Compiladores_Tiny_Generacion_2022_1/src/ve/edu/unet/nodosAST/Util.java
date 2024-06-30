@@ -119,6 +119,8 @@ static void imprimirNodo( NodoBase raiz )
 			System.out.println(">="); 
 		if(sel==tipoOp.igual)
 			System.out.println("=");
+		if(sel==tipoOp.distinto)
+			System.out.println("<>");
 		if(sel==tipoOp.mas)
 			System.out.println("+");
 		if(sel==tipoOp.menos)
