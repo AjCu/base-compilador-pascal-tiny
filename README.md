@@ -1,7 +1,7 @@
 # Compilador Pascal a Tiny
 
 Este proyecto es un compilador escrito en Java que transforma código escrito en Pascal a código de la máquina virtual Tiny. Se basa en una base de código previa que transformaba código de otro lenguaje a Tiny.
-Este se realiza como proyecto final de la Materia de Compiladores para el Semestre de 2024-1, los integrantes son:
+Este se realiza como proyecto final de la Materia de Compiladores para el Semestre de 2024-1 en la Universidad Nacional Experimental del Tachira (UNET), los integrantes son:
 
 - Alberto Cristancho C.I V-24.782.650
 - Hector David C.I V-XX.XXX.XXX
