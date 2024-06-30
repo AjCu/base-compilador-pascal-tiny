@@ -51,6 +51,7 @@ action code {:
 
 /* Simbolos Terminales */
 
+terminal PROGRAMA;
 terminal VAR;
 terminal INT;
 terminal BOOL;
@@ -94,12 +95,12 @@ terminal ARRAY;
 terminal OF;
 
 /* Simbolos No Terminales */
-non terminal program;
-non terminal NodoBase block;
-non terminal NodoBase dcl_stmt_seq;
-non terminal NodoBase dcl_stmt;
-non terminal NodoBase stmt_seq;
-non terminal NodoBase stmt;
+non terminal PROGRAM;
+non terminal NodoBase BLOQUE;
+non terminal NodoBase DECL_EXPRESION_SEQ;
+non terminal NodoBase DECL_EXPRESION;
+non terminal NodoBase EXPRESION_SEQUENCIA;
+non terminal NodoBase EXPRESION_GENERAL;
 non terminal NodoBase EXPRESION_IF;
 non terminal NodoBase EXPRESION_REPEAT;
 non terminal NodoBase DECLARACION_LISTA;
@@ -121,25 +122,25 @@ precedence left TIMES;
 
 
 /* REGLAS GRAMATICALES */
-program ::= block:s	{: if(debug) System.out.println("\t regla 1");
+PROGRAM ::= BLOQUE:s	{: if(debug) System.out.println("\t regla 1");
                 ast = s;
             :}
         ;
 
-block ::= VAR dcl_stmt_seq:dclstmt BEGIN stmt_seq:body_seq END POINT{: if(debug) System.out.println("\t regla 2a");
+BLOQUE ::= VAR DECL_EXPRESION_SEQ:dclstmt BEGIN EXPRESION_SEQUENCIA:body_seq END POINT{: if(debug) System.out.println("\t regla 2a");
             NodoBase tmp = ((NodoBase)new NodoDeclarationList(dclstmt));
             tmp.setHermanoDerecha(((NodoBase)new NodoDeclarationList(body_seq)));
             RESULT = tmp;
             :}
-            | BEGIN stmt_seq:bodystmt END POINT{: if(debug) System.out.println("\t regla 2b");
+            | BEGIN EXPRESION_SEQUENCIA:bodystmt END POINT{: if(debug) System.out.println("\t regla 2b");
                 RESULT = ((NodoBase)new NodoDeclarationList(bodystmt));
 
             :}
             ;
 
-stmt_seq ::=
-    stmt_seq:ini PUNTO_COMA stmt:sent {:
-            if(debug) System.out.println("\t regla stmt_seq PUNTO_COMA stmt");
+EXPRESION_SEQUENCIA ::=
+    EXPRESION_SEQUENCIA:ini PUNTO_COMA EXPRESION_GENERAL:sent {:
+            if(debug) System.out.println("\t regla EXPRESION_SEQUENCIA PUNTO_COMA EXPRESION_GENERAL");
             NodoBase hijoActual = ini;
             if(hijoActual !=null){
                 while(hijoActual.TieneHermano()){
@@ -151,14 +152,14 @@ stmt_seq ::=
                 RESULT=sent;
             }
         :}
-    | stmt:sent{:
-            if(debug) System.out.println("\t regla stmt");
+    | EXPRESION_GENERAL:sent{:
+            if(debug) System.out.println("\t regla EXPRESION_GENERAL");
             RESULT=sent;
         :}
     ;
 
-dcl_stmt_seq ::=
-    dcl_stmt_seq:ini dcl_stmt:sent PUNTO_COMA{:
+DECL_EXPRESION_SEQ ::=
+    DECL_EXPRESION_SEQ:ini DECL_EXPRESION:sent PUNTO_COMA{:
             if(debug) System.out.println("\t regla 4a");
             NodoBase hijoActual = ini;
             if(hijoActual !=null){
@@ -171,13 +172,13 @@ dcl_stmt_seq ::=
                 RESULT=sent;
             }
         :}
-    | dcl_stmt:sent PUNTO_COMA{:
+    | DECL_EXPRESION:sent PUNTO_COMA{:
             if(debug) System.out.println("\t regla 4b");
             RESULT=sent;
         :}
     ;
 
-dcl_stmt ::= DECLARACION_LISTA:dcl_list_int DOS_PUNTOS INT {: if(debug) System.out.println("\t regla 5a");
+DECL_EXPRESION ::= DECLARACION_LISTA:dcl_list_int DOS_PUNTOS INT {: if(debug) System.out.println("\t regla 5a");
             RESULT = new NodoDeclarationRow(tipoDec.entero, dcl_list_int);
       :}
       | DECLARACION_LISTA:dcl_list_int DOS_PUNTOS INT IGUAL NUM:num{:
@@ -214,7 +215,7 @@ dcl_stmt ::= DECLARACION_LISTA:dcl_list_int DOS_PUNTOS INT {: if(debug) System.o
            :}
       ;
 
-stmt ::= EXPRESION_IF:sif	{: if(debug) System.out.println("\t regla 3a");
+EXPRESION_GENERAL ::= EXPRESION_IF:sif	{: if(debug) System.out.println("\t regla 3a");
                 RESULT=sif;
                 :}
          | EXPRESION_REPEAT:srep	{: if(debug) System.out.println("\t regla 3b");
@@ -266,17 +267,17 @@ DECLARACION_LISTA ::=
         :}
 ;
 
-EXPRESION_IF     ::= IF EXPRESION_LOGICA:ex THEN stmt_seq:pthen END	{:
+EXPRESION_IF     ::= IF EXPRESION_LOGICA:ex THEN EXPRESION_SEQUENCIA:pthen END	{:
                     if(debug) System.out.println("\t regla 4a");
                     RESULT = new NodoIf(ex,pthen);
                 :}
-                | IF EXPRESION_LOGICA:ex THEN stmt_seq:pthen ELSE stmt_seq:pelse END	{:
+                | IF EXPRESION_LOGICA:ex THEN EXPRESION_SEQUENCIA:pthen ELSE EXPRESION_SEQUENCIA:pelse END	{:
                     if(debug) System.out.println("\t regla 4b");
                     RESULT = new NodoIf(ex,pthen,pelse);
                 :}
 		;
 
-EXPRESION_REPEAT ::= REPEAT stmt_seq:cuerpo UNTIL EXPRESION:prueba	{: if(debug) System.out.println("\t regla 5");
+EXPRESION_REPEAT ::= REPEAT EXPRESION_SEQUENCIA:cuerpo UNTIL EXPRESION:prueba	{: if(debug) System.out.println("\t regla 5");
 							RESULT = new NodoRepeat(cuerpo,prueba);
 							:}
 		;
@@ -427,7 +428,7 @@ FACTOR      ::= LPAREN EXPRESION:ex RPAREN	{: if(debug) System.out.println("\t r
 		;
 
 
-EXPRESION_FOR    ::= FOR EXPRESION:condition TO EXPRESION:final_value DO BEGIN stmt_seq:cuerpo END   {: if(debug) System.out.println("\t regla 13");
+EXPRESION_FOR    ::= FOR EXPRESION:condition TO EXPRESION:final_value DO BEGIN EXPRESION_SEQUENCIA:cuerpo END   {: if(debug) System.out.println("\t regla 13");
         RESULT = new NodoFor(condition, final_value, cuerpo);
         :}
         ;

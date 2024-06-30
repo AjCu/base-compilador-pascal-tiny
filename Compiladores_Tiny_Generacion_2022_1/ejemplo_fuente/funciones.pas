@@ -1,22 +1,21 @@
-Program funciones;
-Var
+var
 	pi, radio, radio : Integer;
 	dias: Integer;
-	dia_libre : Integer;
+	dialibre : Integer;
 PROCEDURE Circulo ()
 BEGIN
-	Circulo := pi * radio * radio
+	Circulo := pi * radio * radio;
 END;
 
-PROCEDURE Leer_conjunto ()
+PROCEDURE LeerConjunto ()
 BEGIN
 	dias:=0;
-	dia_libre:=1;
-		READ (dia_libre);
-		dias := dias + dia_libre
+	dialibre:=1;
+		READ (dialibre);
+		dias := dias + dialibre;
 END;
 
 begin
 	Circulo;
-	Leer_conjunto;
+	LeerConjunto;
 end.

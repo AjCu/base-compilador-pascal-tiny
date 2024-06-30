@@ -7,7 +7,7 @@ begin
 end.}
 
 var
-	contador, N, i, potencia : Integer
+	contador, N, i, potencia : Integer;
 begin
 	repeat
 		contador:=contador+1;

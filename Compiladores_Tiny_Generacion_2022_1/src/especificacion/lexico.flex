@@ -53,6 +53,9 @@ identificador	= {letra}+
 nuevalinea		= \n | \n\r | \r\n
 espacio		= [ \t]+
 %%
+"program"           { if(debug) System.out.println("token PROGRAMA");
+            return sf.newSymbol("PROGRAMA",sym.PROGRAMA);
+            }
 "var"           { if(debug) System.out.println("token VAR");
             return sf.newSymbol("VAR",sym.VAR);
             }
