@@ -12,11 +12,8 @@ PROCEDURE Leer_conjunto ()
 BEGIN
 	dias:=0;
 	dia_libre:=1;
-	WHILE dia_libre>0 DO
-	BEGIN
 		READ (dia_libre);
 		dias := dias + dia_libre
-	END;
 END;
 
 begin

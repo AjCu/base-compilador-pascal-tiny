@@ -92,9 +92,6 @@ espacio		= [ \t]+
 "for"			{	if(debug)System.out.println("token FOR");
 			return sf.newSymbol("FOR",sym.FOR);
 			}
-"while"			{	if(debug)System.out.println("token WHILE");
-			return sf.newSymbol("WHILE",sym.WHILE);
-			}
 "to"			{	if(debug)System.out.println("token TO");
 			return sf.newSymbol("TO",sym.TO);
 			}
@@ -119,14 +116,17 @@ espacio		= [ \t]+
 "of"           { if(debug) System.out.println("token OF");
           return sf.newSymbol("OF",sym.OF);
           }
-":="            {	if(debug) System.out.println("token ASSIGN");
-			return sf.newSymbol("ASSIGN",sym.ASSIGN);
+":="            {	if(debug) System.out.println("token ASIGNACION");
+			return sf.newSymbol("ASIGNACION",sym.ASIGNACION);
 			}
-"="             {	if(debug) System.out.println("token EQ");
-			return sf.newSymbol("EQ",sym.EQ);
+"="             {	if(debug) System.out.println("token IGUAL");
+			return sf.newSymbol("IGUAL",sym.IGUAL);
 			}
-"<"             {	if(debug) System.out.println("token LT");
-			return sf.newSymbol("LT",sym.LT);
+"<"             {	if(debug) System.out.println("token MENOR_QUE");
+			return sf.newSymbol("MENOR_QUE",sym.MENOR_QUE);
+			}
+">"             {	if(debug) System.out.println("token MAYOR_QUE");
+			return sf.newSymbol("MAYOR_QUE",sym.MAYOR_QUE);
 			}
 "+"             {	if(debug) System.out.println("token PLUS");
 			return sf.newSymbol("PLUS",sym.PLUS);
@@ -152,11 +152,11 @@ espacio		= [ \t]+
 "]"             {	if(debug) System.out.println("token RBRACKET");
 			return sf.newSymbol("RBRACKET",sym.RBRACKET);
 			}
-";"             {	if(debug) System.out.println("token SEMI");
-			return sf.newSymbol("SEMI",sym.SEMI);
+";"             {	if(debug) System.out.println("token PUNTO_COMA");
+			return sf.newSymbol("PUNTO_COMA",sym.PUNTO_COMA);
 			}
-":"             {	if(debug) System.out.println("token COLON");
-			return sf.newSymbol("COLON",sym.COLON);
+":"             {	if(debug) System.out.println("token DOS_PUNTOS");
+			return sf.newSymbol("DOS_PUNTOS",sym.DOS_PUNTOS);
 			}
 ","             { if(debug) System.out.println("token COMMA");
           return sf.newSymbol("COMMA",sym.COMMA);
