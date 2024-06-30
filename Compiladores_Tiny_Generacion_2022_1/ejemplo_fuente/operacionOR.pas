@@ -7,4 +7,4 @@ begin
     else
         write 0
     end
-end
+end.

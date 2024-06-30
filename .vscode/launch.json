@@ -6,6 +6,34 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Sintax",
+            "request": "launch",
+            "mainClass": "ve.edu.unet.Sintax",
+            "projectName": "proyecto-compi-2024_60ebe594"
+        },
+        {
+            "type": "java",
+            "name": "CrearCup",
+            "request": "launch",
+            "mainClass": "ve.edu.unet.CrearCup",
+            "projectName": "proyecto-compi-2024_60ebe594"
+        },
+        {
+            "type": "java",
+            "name": "CrearLexicoYCup",
+            "request": "launch",
+            "mainClass": "ve.edu.unet.CrearLexicoYCup",
+            "projectName": "proyecto-compi-2024_60ebe594"
+        },
+        {
+            "type": "java",
+            "name": "CrearLexico",
+            "request": "launch",
+            "mainClass": "ve.edu.unet.CrearLexico",
+            "projectName": "proyecto-compi-2024_60ebe594"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -14,12 +42,14 @@
             "type": "java",
             "name": "parser",
             "request": "launch",
-            "args": 
-            [
-            "C:/Development/Personal AJCU/UNET/proyecto-compi-2024/Compiladores_Tiny_Generacion_2022_1/ejemplo_fuente/arreglos.pas"
-            ],        
+            "args": [
+                "C:/Development/Personal AJCU/UNET/proyecto-compi-2024/Compiladores_Tiny_Generacion_2022_1/ejemplo_fuente/operaciones.pas"
+            ],
             "mainClass": "ve.edu.unet.parser",
-            "projectName": "proyecto-compi-2024_60ebe594"
+            "projectName": "proyecto-compi-2024_60ebe594",
+            "noDebug": false,
+            "__progressId": "45a7fdce-8a33-4f0c-8a54-4b2b9b478f74",
+            "__origin": "internal"
         }
     ]
 }

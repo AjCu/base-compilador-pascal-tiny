@@ -51,6 +51,8 @@ action code {:
 
 /* Simbolos Terminales */
 
+terminal PROGRAMA;
+terminal PROCEDIMIENTO;
 terminal VAR;
 terminal INT;
 terminal BOOL;
@@ -68,9 +70,13 @@ terminal READ;
 terminal WRITE;
 terminal String ID;
 terminal String NUM;
-terminal ASSIGN;
-terminal EQ;
-terminal LT;
+terminal ASIGNACION;
+terminal IGUAL;
+terminal DISTINTO_DE;
+terminal MENOR_QUE;
+terminal MENOR_IGUAL;
+terminal MAYOR_QUE;
+terminal MAYOR_IGUAL;
 terminal PLUS;
 terminal MINUS;
 terminal TIMES;
@@ -80,39 +86,38 @@ terminal LPAREN;
 terminal RPAREN;
 terminal LBRACKET;
 terminal RBRACKET;
-terminal SEMI;
+terminal PUNTO_COMA;
 terminal FOR;
 terminal WHILE;
 terminal TO;
 terminal DO;
 
-terminal COLON;
+terminal DOS_PUNTOS;
 terminal COMMA;
 terminal POINT;
 terminal ARRAY;
 terminal OF;
 
 /* Simbolos No Terminales */
-non terminal program;
-non terminal NodoBase block;
-non terminal NodoBase dcl_stmt_seq;
-non terminal NodoBase dcl_stmt;
-non terminal NodoBase stmt_seq;
-non terminal NodoBase stmt;
-non terminal NodoBase if_stmt;
-non terminal NodoBase repeat_stmt;
-non terminal NodoBase declaration_list;
-non terminal NodoBase assign_stmt;
-non terminal NodoBase read_stmt;
-non terminal NodoBase write_stmt;
-non terminal NodoBase exp_logic;
-non terminal NodoBase exp_not;
-non terminal NodoBase exp;
-non terminal NodoBase simple_exp;
-non terminal NodoBase term;
-non terminal NodoBase factor;
-non terminal NodoBase for_stmt;
-non terminal NodoBase while_stmt;
+non terminal PROGRAM;
+non terminal NodoBase BLOQUE;
+non terminal NodoBase DECL_EXPRESION_SEQ;
+non terminal NodoBase DECL_EXPRESION;
+non terminal NodoBase EXPRESION_SEQUENCIA;
+non terminal NodoBase EXPRESION_GENERAL;
+non terminal NodoBase EXPRESION_IF;
+non terminal NodoBase EXPRESION_REPEAT;
+non terminal NodoBase DECLARACION_LISTA;
+non terminal NodoBase EXPRESION_ASIGNACION;
+non terminal NodoBase EXPRESION_LEER;
+non terminal NodoBase EXPRESION_ESCRIBIR;
+non terminal NodoBase EXPRESION_LOGICA;
+non terminal NodoBase EXPRESION_NOT;
+non terminal NodoBase EXPRESION;
+non terminal NodoBase EXPRESION_SIMPLE;
+non terminal NodoBase TERMINO;
+non terminal NodoBase FACTOR;
+non terminal NodoBase EXPRESION_FOR;
 
 /* Precedencia de operadores */
 precedence left PLUS;
@@ -121,25 +126,29 @@ precedence left TIMES;
 
 
 /* REGLAS GRAMATICALES */
-program ::= block:s	{: if(debug) System.out.println("\t regla 1");
+PROGRAM ::= BLOQUE:s	{: if(debug) System.out.println("\t regla 1");
                 ast = s;
             :}
         ;
 
-block ::= VAR dcl_stmt_seq:dclstmt BEGIN stmt_seq:body_seq END POINT{: if(debug) System.out.println("\t regla 2a");
+BLOQUE ::= VAR DECL_EXPRESION_SEQ:dclstmt BEGIN EXPRESION_SEQUENCIA:body_seq END POINT{: if(debug) System.out.println("\t regla 2a");
             NodoBase tmp = ((NodoBase)new NodoDeclarationList(dclstmt));
             tmp.setHermanoDerecha(((NodoBase)new NodoDeclarationList(body_seq)));
             RESULT = tmp;
             :}
-            | BEGIN stmt_seq:bodystmt END POINT{: if(debug) System.out.println("\t regla 2b");
+            | PROGRAMA ID PUNTO_COMA VAR DECL_EXPRESION_SEQ:dclstmt BEGIN EXPRESION_SEQUENCIA:body_seq END POINT{: if(debug) System.out.println("\t regla 2a");
+            NodoBase tmp = ((NodoBase)new NodoDeclarationList(dclstmt));
+            tmp.setHermanoDerecha(((NodoBase)new NodoDeclarationList(body_seq)));
+            RESULT = tmp;
+            :}
+            | BEGIN EXPRESION_SEQUENCIA:bodystmt END POINT{: if(debug) System.out.println("\t regla 2b");
                 RESULT = ((NodoBase)new NodoDeclarationList(bodystmt));
-
             :}
             ;
 
-stmt_seq ::=
-    stmt_seq:ini SEMI stmt:sent {:
-            if(debug) System.out.println("\t regla stmt_seq semi stmt");
+EXPRESION_SEQUENCIA ::=
+    EXPRESION_SEQUENCIA:ini PUNTO_COMA EXPRESION_GENERAL:sent {:
+            if(debug) System.out.println("\t regla EXPRESION_SEQUENCIA PUNTO_COMA EXPRESION_GENERAL");
             NodoBase hijoActual = ini;
             if(hijoActual !=null){
                 while(hijoActual.TieneHermano()){
@@ -151,14 +160,14 @@ stmt_seq ::=
                 RESULT=sent;
             }
         :}
-    | stmt:sent{:
-            if(debug) System.out.println("\t regla stmt");
+    | EXPRESION_GENERAL:sent{:
+            if(debug) System.out.println("\t regla EXPRESION_GENERAL");
             RESULT=sent;
         :}
     ;
 
-dcl_stmt_seq ::=
-    dcl_stmt_seq:ini dcl_stmt:sent SEMI{:
+DECL_EXPRESION_SEQ ::=
+    DECL_EXPRESION_SEQ:ini DECL_EXPRESION:sent PUNTO_COMA{:
             if(debug) System.out.println("\t regla 4a");
             NodoBase hijoActual = ini;
             if(hijoActual !=null){
@@ -171,25 +180,25 @@ dcl_stmt_seq ::=
                 RESULT=sent;
             }
         :}
-    | dcl_stmt:sent SEMI{:
+    | DECL_EXPRESION:sent PUNTO_COMA{:
             if(debug) System.out.println("\t regla 4b");
             RESULT=sent;
         :}
     ;
 
-dcl_stmt ::= declaration_list:dcl_list_int COLON INT {: if(debug) System.out.println("\t regla 5a");
+DECL_EXPRESION ::= DECLARACION_LISTA:dcl_list_int DOS_PUNTOS INT {: if(debug) System.out.println("\t regla 5a");
             RESULT = new NodoDeclarationRow(tipoDec.entero, dcl_list_int);
       :}
-      | declaration_list:dcl_list_int COLON INT EQ NUM:num{:
+      | DECLARACION_LISTA:dcl_list_int DOS_PUNTOS INT IGUAL NUM:num{:
                   if(debug) System.out.println("\t regla declaration_list_int con valor");
                 RESULT = new NodoDeclarationRow(tipoDec.entero, dcl_list_int, new NodoValor(Integer.parseInt(num)));
             :}
-      | declaration_list:dcl_list_bool COLON BOOL {:
+      | DECLARACION_LISTA:dcl_list_bool DOS_PUNTOS BOOL {:
             if(debug) System.out.println("\t regla declaration_list_bool sin valor");
           RESULT = new NodoDeclarationRow(tipoDec.booleano, dcl_list_bool);
 
        :}
-      | declaration_list:dcl_list_bool COLON BOOL EQ ID:var {:
+      | DECLARACION_LISTA:dcl_list_bool DOS_PUNTOS BOOL IGUAL ID:var {:
              if(debug) System.out.println("\t regla dcl_list_bool con valor");
              if(var.equals("True")) {
                  RESULT = new NodoDeclarationRow(tipoDec.booleano, dcl_list_bool, new NodoValor(1));
@@ -200,7 +209,7 @@ dcl_stmt ::= declaration_list:dcl_list_int COLON INT {: if(debug) System.out.pri
                 System.out.println("error al declarar variable booleana");
              }
        :}
-      | declaration_list:dcl_list_array COLON ARRAY LBRACKET NUM:ini POINT POINT NUM:end RBRACKET OF INT {:
+      | DECLARACION_LISTA:dcl_list_array DOS_PUNTOS ARRAY LBRACKET NUM:ini POINT POINT NUM:end RBRACKET OF INT {:
              if(debug) System.out.println("\t regla dcl_list_vector entero");
              RESULT = new NodoDeclarationRow(tipoDec.entero, dcl_list_array,Integer.parseInt(ini),Integer.parseInt(end));
        :}
@@ -214,29 +223,24 @@ dcl_stmt ::= declaration_list:dcl_list_int COLON INT {: if(debug) System.out.pri
            :}
       ;
 
-stmt ::= if_stmt:sif	{: if(debug) System.out.println("\t regla 3a");
+EXPRESION_GENERAL ::= EXPRESION_IF:sif	{: if(debug) System.out.println("\t regla 3a");
                 RESULT=sif;
                 :}
-         | repeat_stmt:srep	{: if(debug) System.out.println("\t regla 3b");
+         | EXPRESION_REPEAT:srep	{: if(debug) System.out.println("\t regla 3b");
                     RESULT=srep;
                     :}
-         | assign_stmt:sasi	{: if(debug) System.out.println("\t regla 3c");
+         | EXPRESION_ASIGNACION:sasi	{: if(debug) System.out.println("\t regla 3c");
                     RESULT=sasi;
                     :}
-         | read_stmt:slec	{: if(debug) System.out.println("\t regla 3d");
+         | EXPRESION_LEER:slec	{: if(debug) System.out.println("\t regla 3d");
                 RESULT=slec;
                 :}
-         | write_stmt:sesc 	{: if(debug) System.out.println("\t regla 3e");
+         | EXPRESION_ESCRIBIR:sesc 	{: if(debug) System.out.println("\t regla 3e");
                 RESULT=sesc;
                 :}
-        /********/
-        			| for_stmt:sfor	{: if(debug) System.out.println("\t regla 3g");
+         | EXPRESION_FOR:sfor	{: if(debug) System.out.println("\t regla 3g");
                 RESULT=sfor;
                     :}
-			| while_stmt:swhile	{: if(debug) System.out.println("\t regla 3h");
-                RESULT=swhile;
-                    :}
-        /********/
          | error	{:
 
             if(debug) System.out.println("\t regla 3f");
@@ -247,8 +251,8 @@ stmt ::= if_stmt:sif	{: if(debug) System.out.println("\t regla 3a");
             :}
          ;
 
-declaration_list ::=
-    declaration_list:ini COMMA assign_stmt:sent {:
+DECLARACION_LISTA ::=
+    DECLARACION_LISTA:ini COMMA EXPRESION_ASIGNACION:sent {:
             if(debug) System.out.println("\t regla 7a");
 
             if(debug) System.out.println("declaracion de lista de variables");
@@ -263,7 +267,7 @@ declaration_list ::=
                 RESULT=sent;
             }
         :}
-    | assign_stmt:var {:
+    | EXPRESION_ASIGNACION:var {:
             if(debug) System.out.println("\t regla 7b");
 
             if(debug) System.out.println("asignacion simple");
@@ -271,22 +275,22 @@ declaration_list ::=
         :}
 ;
 
-if_stmt     ::= IF exp_logic:ex THEN stmt_seq:pthen END	{:
+EXPRESION_IF     ::= IF EXPRESION_LOGICA:ex THEN EXPRESION_SEQUENCIA:pthen END	{:
                     if(debug) System.out.println("\t regla 4a");
                     RESULT = new NodoIf(ex,pthen);
                 :}
-                | IF exp_logic:ex THEN stmt_seq:pthen ELSE stmt_seq:pelse END	{:
+                | IF EXPRESION_LOGICA:ex THEN EXPRESION_SEQUENCIA:pthen ELSE EXPRESION_SEQUENCIA:pelse END	{:
                     if(debug) System.out.println("\t regla 4b");
                     RESULT = new NodoIf(ex,pthen,pelse);
                 :}
 		;
 
-repeat_stmt ::= REPEAT stmt_seq:cuerpo UNTIL exp:prueba	{: if(debug) System.out.println("\t regla 5");
+EXPRESION_REPEAT ::= REPEAT EXPRESION_SEQUENCIA:cuerpo UNTIL EXPRESION:prueba	{: if(debug) System.out.println("\t regla 5");
 							RESULT = new NodoRepeat(cuerpo,prueba);
 							:}
 		;
 
-assign_stmt ::=
+EXPRESION_ASIGNACION ::=
         ID:variable {:
             if(debug) System.out.println("declaracion de variable sin valor");
             if (variable != null)
@@ -297,7 +301,7 @@ assign_stmt ::=
             }
         :}
         |
-        ID:variable ASSIGN exp_logic:ex	{: if(debug) System.out.println("\t regla 6 parte final");
+        ID:variable ASIGNACION EXPRESION_LOGICA:ex	{: if(debug) System.out.println("\t regla 6 parte final");
                 if(variable!=null) {
                     RESULT = new NodoAsignacion(new NodoIdentificador(variable.toString()),ex);
                 } else{
@@ -306,7 +310,7 @@ assign_stmt ::=
                 }
                 :}
         |
-        ID:variable LBRACKET simple_exp:exp RBRACKET ASSIGN simple_exp:ex	{:
+        ID:variable LBRACKET EXPRESION_SIMPLE:exp RBRACKET ASIGNACION EXPRESION_SIMPLE:ex	{:
                     if(debug) System.out.println("\t regla asignacion de vector");
                     if(variable!=null) {
                         RESULT = new NodoAsignacion(
@@ -320,7 +324,7 @@ assign_stmt ::=
                     :}
 		;
 
-read_stmt   ::= READ ID:variable	{: if(debug) System.out.println("\t regla 7");
+EXPRESION_LEER   ::= READ ID:variable	{: if(debug) System.out.println("\t regla 7");
                 System.out.println("Leyendo Variable");
                 if(variable!=null)
 					RESULT = new NodoLeer(variable.toString());
@@ -331,71 +335,83 @@ read_stmt   ::= READ ID:variable	{: if(debug) System.out.println("\t regla 7");
 					:}
 		;
 
-write_stmt  ::= WRITE exp:ex	{: if(debug) System.out.println("\t regla 8");
+EXPRESION_ESCRIBIR  ::= WRITE EXPRESION:ex	{: if(debug) System.out.println("\t regla 8");
 					RESULT= new NodoEscribir(ex);
 					:}
 		;
 
-exp_logic ::=
-    exp_not:exI AND exp_logic:exD {:
+EXPRESION_LOGICA ::=
+    EXPRESION_NOT:exI AND EXPRESION_LOGICA:exD {:
             if(debug) System.out.println("\t regla expresion logica AND");
             RESULT = new NodoOperacion(exI, tipoOp.and, exD);
         :}
-    | exp_not:exI OR exp_logic:exD {:
+    | EXPRESION_NOT:exI OR EXPRESION_LOGICA:exD {:
             if(debug) System.out.println("\t regla expresion logica OR");
             RESULT = new NodoOperacion(exI, tipoOp.or, exD);
         :}
-    | exp_not:ex {: RESULT = ex; :}
+    | EXPRESION_NOT:ex {: RESULT = ex; :}
     ;
 
-exp_not ::=
-    NOT exp_not:ex {:
-            if(debug) System.out.println("\t regla exp_not");
+EXPRESION_NOT ::=
+    NOT EXPRESION_NOT:ex {:
+            if(debug) System.out.println("\t regla EXPRESION_NOT");
             RESULT = new NodoOperacionNot(tipoOp.not, ex);
         :}
-    | exp:ex {: if(debug) System.out.println("\t regla exp");
+    | EXPRESION:ex {: if(debug) System.out.println("\t regla EXPRESION");
             RESULT = ex;
         :}
 ;
 
-exp         ::= simple_exp:exI LT simple_exp:exD	{: if(debug) System.out.println("\t regla 9a");
+EXPRESION         ::= EXPRESION_SIMPLE:exI MENOR_QUE EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9a");
 								RESULT = new NodoOperacion(exI,tipoOp.menor,exD);
 								:}
-		| simple_exp:exI EQ simple_exp:exD	{: if(debug) System.out.println("\t regla 9b");
+        | EXPRESION_SIMPLE:exI MAYOR_QUE EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9d");
+                            RESULT = new NodoOperacion(exI,tipoOp.mayor,exD);
+                            :}
+        | EXPRESION_SIMPLE:exI MENOR_IGUAL EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9e");
+                            RESULT = new NodoOperacion(exI,tipoOp.menorigual,exD);
+                            :}
+        | EXPRESION_SIMPLE:exI MAYOR_IGUAL EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9f");
+                            RESULT = new NodoOperacion(exI,tipoOp.mayorigual,exD);
+                            :}
+		| EXPRESION_SIMPLE:exI IGUAL EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9b");
 							RESULT = new NodoOperacion(exI,tipoOp.igual,exD);
 							:}
-		| simple_exp:ex	{: if(debug) System.out.println("\t regla 9c");
+		| EXPRESION_SIMPLE:exI DISTINTO_DE EXPRESION_SIMPLE:exD	{: if(debug) System.out.println("\t regla 9b");
+							RESULT = new NodoOperacion(exI,tipoOp.distinto,exD);
+							:}
+		| EXPRESION_SIMPLE:ex	{: if(debug) System.out.println("\t regla 9c");
 					RESULT = ex;
 					:}
 		;
 
-simple_exp  ::= simple_exp:exI PLUS term:exD	{: if(debug) System.out.println("\t regla 10a");
+EXPRESION_SIMPLE  ::= EXPRESION_SIMPLE:exI PLUS TERMINO:exD	{: if(debug) System.out.println("\t regla 10a");
 							RESULT = new NodoOperacion(exI,tipoOp.mas,exD);
 							:}
-		| simple_exp:exI MINUS term:exD	{: if(debug) System.out.println("\t regla 10b");
+		| EXPRESION_SIMPLE:exI MINUS TERMINO:exD	{: if(debug) System.out.println("\t regla 10b");
 							RESULT = new NodoOperacion(exI,tipoOp.menos,exD);
 							:}
-		| term:ex	{: if(debug) System.out.println("\t regla 10c");
+		| TERMINO:ex	{: if(debug) System.out.println("\t regla 10c");
 				RESULT=ex;
 				:}
 		;
 
-term        ::= term:exI TIMES factor:exD	{: if(debug) System.out.println("\t regla 11a");
+TERMINO        ::= TERMINO:exI TIMES FACTOR:exD	{: if(debug) System.out.println("\t regla 11a");
 							RESULT = new NodoOperacion(exI,tipoOp.por,exD);
 							:}
-		| term:exI OVER factor:exD	{: if(debug) System.out.println("\t regla 11b");
+		| TERMINO:exI OVER FACTOR:exD	{: if(debug) System.out.println("\t regla 11b");
 						RESULT = new NodoOperacion(exI,tipoOp.entre,exD);
 						:}
-        | term:exI MOD factor:exD {:
+        | TERMINO:exI MOD FACTOR:exD {:
                     if(debug) System.out.println("\t regla MOD");
                     RESULT = new NodoOperacion(exI,tipoOp.mod,exD);
                 :}
-		| factor:ex	{: if(debug) System.out.println("\t regla 11c");
+		| FACTOR:ex	{: if(debug) System.out.println("\t regla 11c");
 					RESULT=ex;
 					:}
 		;
 
-factor      ::= LPAREN exp:ex RPAREN	{: if(debug) System.out.println("\t regla 12a");
+FACTOR      ::= LPAREN EXPRESION:ex RPAREN	{: if(debug) System.out.println("\t regla 12a");
 							RESULT = ex;
 							:}
 		| NUM:valor	{: if(debug) System.out.println("\t regla 12b");
@@ -429,13 +445,8 @@ factor      ::= LPAREN exp:ex RPAREN	{: if(debug) System.out.println("\t regla 1
 		;
 
 
-for_stmt    ::= FOR exp:condition TO exp:final_value DO BEGIN stmt_seq:cuerpo END   {: if(debug) System.out.println("\t regla 13");
+EXPRESION_FOR    ::= FOR EXPRESION:condition TO EXPRESION:final_value DO BEGIN EXPRESION_SEQUENCIA:cuerpo END   {: if(debug) System.out.println("\t regla 13");
         RESULT = new NodoFor(condition, final_value, cuerpo);
         :}
         ;
 
-while_stmt  ::= WHILE exp:ex DO BEGIN stmt_seq:cuerpo END   {: if(debug) System.out.println("\t regla 14");
-                  RESULT = new NodoWhile(ex, cuerpo);
-                  System.out.println(cuerpo.toString());
-        :}
-        ;

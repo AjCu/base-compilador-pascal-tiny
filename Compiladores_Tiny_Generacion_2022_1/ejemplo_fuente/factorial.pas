@@ -1,4 +1,4 @@
-car
+var
 	fact, x  : Integer;
 begin
 	read x;

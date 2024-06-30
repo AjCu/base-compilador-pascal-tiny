@@ -5,6 +5,6 @@ begin
     if a mod 2 = 0 then
         write 1
     else
-        write 0
+        write 0;
     end
-end
+end.
